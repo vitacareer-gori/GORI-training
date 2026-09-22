@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ÉLÉGANCE JAMBES | 超美脚 7DAYS PROGRAM</title>
+  
+  <!-- Tailwind CSS & Google Fonts -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Shippori+Mincho:wght@400;500;600&family=Zen+Kaku+Gothic+New:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            roseBeige: {
+              50: '#FDFBF9',
+              100: '#F8F4F0',
+              200: '#EFE7E0',
+              300: '#E2D4C8',
+              400: '#C7B1A1',
+              500: '#A98D7B',
+              600: '#8A6F5E',
+              700: '#6C5447',
+              800: '#4F3D34',
+              900: '#342721',
+            },
+            champagne: {
+              light: '#FBF8F3',
+              DEFAULT: '#D4AF37',
+              gold: '#C5A059',
+              glow: 'rgba(212, 175, 55, 0.15)',
+            },
+            nudePink: {
+              soft: '#F4ECE8',
+              accent: '#D99B89',
+              deep: '#9E5B4B'
+            }
+          },
+          fontFamily: {
+            serifTitle: ['"Cormorant Garamond"', '"Shippori Mincho"', 'serif'],
+            mincho: ['"Shippori Mincho"', 'serif'],
+            sans: ['"Zen Kaku Gothic New"', 'sans-serif'],
+          },
+          boxShadow: {
+            'lux': '0 10px 30px -10px rgba(169, 141, 123, 0.15)',
+            'glow': '0 4px 20px -2px rgba(197, 160, 89, 0.25)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Smooth touch interactions & mobile polish */
+    * {
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    input, textarea {
+      user-select: auto;
+    }
+    /* Hide scrollbars for slick mobile tabs */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    
+    /* Custom Checkbox Animation */
+    .lux-checkbox {
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      border: 1.5px solid #D8C7BC;
+      border-radius: 7px;
+      outline: none;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      background: #FFFFFF;
+      flex-shrink: 0;
+    }
+    .lux-checkbox:checked {
+      background: linear-gradient(135deg, #C5A059, #A98D7B);
+      border-color: #A98D7B;
+      box-shadow: 0 2px 8px rgba(169, 141, 123, 0.35);
+    }
+    .lux-checkbox:checked::after {
+      content: '';
+      position: absolute;
+      left: 6.5px;
+      top: 3px;
+      width: 6px;
+      height: 11px;
+      border: solid #FFFFFF;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+    
+    /* Elegant pulse */
+    @keyframes gentlePulse {
+      0%, 100% { opacity: 0.95; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.02); }
+    }
+    .pulse-subtle {
+      animation: gentlePulse 3s infinite ease-in-out;
+    }
+  </style>
+</head>
+
+<body class="bg-roseBeige-50 text-stone-800 font-sans min-h-screen flex justify-center selection:bg-champagne-gold selection:text-white pb-28">
+
+  <!-- Mobile Container (Max 440px wide for native app feeling) -->
+  <main class="w-full max-w-[430px] min-h-screen bg-roseBeige-50 flex flex-col relative shadow-2xl border-x border-roseBeige-200">
+
+    <header class="pt-8 pb-4 px-6 bg-gradient-to-b from-[#FAF6F2] via-roseBeige-50 to-roseBeige-50 sticky top-0 z-30 backdrop-blur-md border-b border-roseBeige-200/60">
+      <div class="flex items-center justify-between mb-3">
+        <div>
+          <span class="text-[10px] tracking-[0.25em] uppercase text-roseBeige-500 font-serifTitle block">Aesthetic Routine</span>
+          <h1 class="text-xl font-serifTitle tracking-wider text-roseBeige-900 font-semibold flex items-center gap-1.5">
+            ÉLÉGANCE JAMBES
+            <span class="text-xs px-2 py-0.5 rounded-full bg-champagne-gold/15 text-roseBeige-700 font-normal">7Days</span>
+          </h1>
+        </div>
+        <button id="openTimerBtn" class="flex items-center gap-1.5 text-xs bg-white/80 border border-roseBeige-300/80 px-3 py-1.5 rounded-full shadow-sm text-roseBeige-700 active:scale-95 transition-all">
+          <svg class="w-3.5 h-3.5 text-champagne-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="9" stroke-width="2"/>
+            <path stroke-linecap="round" stroke-width="2" d="M12 7v5l3 2"/>
+          </svg>
+          <span class="font-medium">Timer</span>
+        </button>
+      </div>
+
+      <!-- Weekly Progress Summary -->
+      <div class="bg-white/90 border border-roseBeige-200 rounded-2xl p-3.5 shadow-lux backdrop-blur-sm">
+        <div class="flex items-center justify-between mb-1.5 text-xs">
+          <div class="flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-champagne-gold"></span>
+            <span class="text-roseBeige-600 font-medium tracking-tight">今週の達成率</span>
+          </div>
+          <span id="weeklyPercentText" class="font-serifTitle text-sm font-bold text-roseBeige-800">0%</span>
+        </div>
+        <div class="w-full bg-roseBeige-200 h-2 rounded-full overflow-hidden">
+          <div id="weeklyProgressBar" class="h-full bg-gradient-to-r from-roseBeige-400 via-champagne-gold to-nudePink-accent transition-all duration-500 ease-out" style="width: 0%"></div>
+        </div>
+        <div class="flex justify-between items-center mt-2 pt-2 border-t border-roseBeige-100 text-[11px] text-stone-500">
+          <span id="completedItemsCount">完了: 0 / 0 項目</span>
+          <button id="resetWeekModalBtn" class="text-roseBeige-500 hover:text-nudePink-deep active:underline flex items-center gap-1">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+            リセット
+          </button>
+        </div>
+      </div>
+
+      <nav class="flex items-center justify-between gap-1 mt-4 overflow-x-auto no-scrollbar py-1">
+        <!-- Monday to Sunday Pills dynamically rendered -->
+        <div id="dayTabsContainer" class="flex gap-1.5 w-full justify-between"></div>
+      </nav>
+    </header>
+
+    <!-- Main Content Area -->
+    <div class="px-5 pt-4 pb-8 space-y-5">
+
+      <!-- Today's Focus Card -->
+      <section class="relative overflow-hidden bg-gradient-to-br from-white via-roseBeige-100/40 to-nudePink-soft/50 border border-roseBeige-200 rounded-3xl p-5 shadow-lux">
+        <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-champagne-gold/10 rounded-full blur-xl pointer-events-none"></div>
+        <div class="flex items-center justify-between mb-1.5">
+          <span id="currentDayBadge" class="text-[11px] font-semibold tracking-wider text-champagne-gold uppercase px-2.5 py-0.5 rounded-full bg-champagne-gold/10 border border-champagne-gold/20">MONDAY</span>
+          <span id="dayCompletionRatio" class="text-xs text-roseBeige-600 font-medium">0 / 0 完了</span>
+        </div>
+        <h2 id="dayThemeTitle" class="text-lg font-mincho font-semibold text-roseBeige-900 tracking-wide mt-1"></h2>
+        <p id="dayThemeDesc" class="text-xs text-stone-600 leading-relaxed mt-1"></p>
+      </section>
+
+      <section class="bg-white border border-roseBeige-200 rounded-3xl p-5 shadow-lux space-y-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="p-1.5 rounded-xl bg-roseBeige-100 text-roseBeige-700">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            </span>
+            <h3 class="font-mincho font-semibold text-roseBeige-900 text-base">美脚トレーニング</h3>
+          </div>
+          <span class="text-[11px] text-stone-400">タップで詳細確認</span>
+        </div>
+
+        <div id="workoutList" class="space-y-3">
+          <!-- Dynamically populated workout items -->
+        </div>
+      </section>
+
+      <section class="bg-white border border-roseBeige-200 rounded-3xl p-5 shadow-lux space-y-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="p-1.5 rounded-xl bg-nudePink-soft text-nudePink-deep">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+            </span>
+            <h3 class="font-mincho font-semibold text-roseBeige-900 text-base">巡りデトックス食事</h3>
+          </div>
+          <span class="text-[11px] text-champagne-gold font-medium bg-champagne-gold/10 px-2 py-0.5 rounded-md">カリウム＆低塩分</span>
+        </div>
+
+        <div id="mealList" class="space-y-3">
+          <!-- Dynamically populated meal cards (朝/昼/夕) -->
+        </div>
+      </section>
+
+      <section class="bg-gradient-to-b from-white to-roseBeige-50 border border-roseBeige-200 rounded-3xl p-5 shadow-lux space-y-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="p-1.5 rounded-xl bg-blue-50 text-blue-500">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+            </span>
+            <div>
+              <h3 class="font-mincho font-semibold text-roseBeige-900 text-base">水分補給 (目標 2.0L)</h3>
+              <p class="text-[11px] text-stone-500">むくみ解消には十分な常温水が必須</p>
+            </div>
+          </div>
+          <span id="waterMlText" class="text-xs font-serifTitle font-bold text-roseBeige-800">0 / 2000 ml</span>
+        </div>
+
+        <!-- 8 Interactive Glass Buttons -->
+        <div class="grid grid-cols-8 gap-2 pt-1" id="waterGlassesContainer">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Circulation Care Checkbox -->
+        <div class="pt-2 border-t border-roseBeige-200/70">
+          <label class="flex items-start gap-3 p-2.5 rounded-2xl bg-white border border-roseBeige-200/80 cursor-pointer active:scale-[0.99] transition-transform">
+            <input type="checkbox" id="bathCheck" class="lux-checkbox mt-0.5">
+            <div class="flex-1">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-semibold text-stone-800">湯船入浴 15分 or 足首温め</span>
+                <span class="text-[10px] text-roseBeige-500 bg-roseBeige-100 px-1.5 py-0.5 rounded">冷え防止</span>
+              </div>
+              <p class="text-[11px] text-stone-500 mt-0.5">38〜40度で下半身の静脈血を心臓へ押し戻す</p>
+            </div>
+          </label>
+        </div>
+      </section>
+
+      <section class="bg-white border border-roseBeige-200 rounded-3xl p-5 shadow-lux space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="p-1.5 rounded-xl bg-amber-50 text-amber-600">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+            </span>
+            <h3 class="font-mincho font-semibold text-roseBeige-900 text-base">今日の脚コンディションメモ</h3>
+          </div>
+          <span id="noteSaveIndicator" class="text-[10px] text-emerald-600 opacity-0 transition-opacity">保存済 ✓</span>
+        </div>
+        <textarea id="dailyNoteInput" rows="2" placeholder="例: ふくらはぎが軽くなった、夜の足首がすっきりしてきた等..." class="w-full text-xs p-3 rounded-2xl bg-roseBeige-50 border border-roseBeige-200 focus:outline-none focus:border-champagne-gold focus:bg-white text-stone-700 transition-colors placeholder:text-stone-400 resize-none"></textarea>
+      </section>
+
+    </div>
+
+    <div class="fixed bottom-3 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-[400px] z-20">
+      <div class="bg-stone-900/90 text-white backdrop-blur-md rounded-full px-5 py-3 shadow-2xl flex items-center justify-between border border-stone-700/50">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+          <span class="text-xs tracking-wide">本日の完了度</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span id="footerPercent" class="font-serifTitle text-base font-bold text-champagne-light">0%</span>
+          <button id="jumpTodayBtn" class="text-xs bg-gradient-to-r from-champagne-gold to-roseBeige-500 text-white font-medium px-3.5 py-1 rounded-full active:scale-95 shadow-glow">
+            今日へ
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="timerModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300">
+      <div class="bg-white rounded-3xl w-full max-w-xs p-6 shadow-2xl border border-roseBeige-200 text-center relative transform scale-95 transition-transform duration-300" id="timerModalContent">
+        <button id="closeTimerBtn" class="absolute top-4 right-4 text-stone-400 hover:text-stone-600">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+
+        <span class="text-[10px] tracking-widest text-champagne-gold font-semibold uppercase">Routine Timer</span>
+        <h3 class="font-mincho font-semibold text-roseBeige-900 text-lg mt-0.5">ストレッチ・休憩タイマー</h3>
+
+        <!-- Preset Chips -->
+        <div class="flex justify-center gap-2 my-4">
+          <button class="timer-preset-btn text-xs px-2.5 py-1 rounded-full border border-roseBeige-300 active:bg-roseBeige-100" data-seconds="30">30秒(休憩)</button>
+          <button class="timer-preset-btn text-xs px-2.5 py-1 rounded-full border border-champagne-gold bg-champagne-gold/10 text-roseBeige-800 font-medium active:bg-roseBeige-100" data-seconds="60">1分(ポーズ)</button>
+          <button class="timer-preset-btn text-xs px-2.5 py-1 rounded-full border border-roseBeige-300 active:bg-roseBeige-100" data-seconds="120">2分</button>
+        </div>
+
+        <!-- Big Display -->
+        <div class="my-4 font-serifTitle text-5xl font-bold text-stone-800 tracking-wider" id="timerDisplay">
+          01:00
+        </div>
+
+        <div class="flex justify-center gap-3 mt-5">
+          <button id="timerToggleBtn" class="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-champagne-gold to-roseBeige-600 text-white font-medium text-sm shadow-md active:scale-95">
+            スタート
+          </button>
+          <button id="timerResetBtn" class="px-4 py-2.5 rounded-xl border border-roseBeige-300 text-roseBeige-700 text-sm font-medium active:bg-roseBeige-100">
+            リセット
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="resetModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300">
+      <div class="bg-white rounded-3xl w-full max-w-xs p-6 shadow-2xl border border-roseBeige-200 text-center">
+        <div class="w-12 h-12 rounded-2xl bg-roseBeige-100 text-nudePink-deep mx-auto flex items-center justify-center mb-3">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+        </div>
+        <h4 class="font-mincho font-semibold text-roseBeige-900 text-lg">1週間の記録をリセット</h4>
+        <p class="text-xs text-stone-500 mt-1.5 leading-relaxed">新しい週をスタートするために、すべてのチェックと水分記録をクリアしますか？（メモは保持されます）</p>
+        <div class="flex gap-2 mt-5">
+          <button id="cancelResetBtn" class="flex-1 py-2 rounded-xl border border-roseBeige-300 text-stone-600 text-xs">キャンセル</button>
+          <button id="confirmResetBtn" class="flex-1 py-2 rounded-xl bg-nudePink-deep text-white text-xs font-semibold shadow-md">新しく開始</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    // 7-day Program Blueprint (Optimized for female slim leg sculpting & daily diet)
+    const PROGRAM_DATA = {
+      mon: {
+        key: 'mon',
+        name: '月',
+        en: 'MON',
+        theme: '骨盤＆内もも引き締め',
+        desc: '骨盤の広がりを抑え、普段使われず脂肪が溜まりやすい内転筋に隙間を作ります。',
+        workouts: [
+          {
+            id: 'mon_w1',
+            title: 'クラムシェル',
+            reps: '左右 各20回 × 2セット',
+            target: '中臀筋・骨盤サポート',
+            tip: '横向きに寝て膝を90度に曲げ、足のかかとをつけたまま貝殻のように上側の膝を開閉。骨盤が後ろに倒れないようにお腹に力を入れてキープ。'
+          },
+          {
+            id: 'mon_w2',
+            title: 'ワイドスタンス・スクワット',
+            reps: '20回 × 2セット',
+            target: '内転筋（内もも）・大臀筋下部',
+            tip: '肩幅の1.5倍に足を開き、つま先は外側45度。お尻を真下に落とし、膝をしっかり外へ押し出す。前ももではなく内ももで床を押して上がります。'
+          }
+        ],
+        meals: {
+          breakfast: {
+            title: '朝食: 高タンパク＆ビタミン',
+            detail: 'ギリシャヨーグルト、ブルーベリー、ゆで卵 1個',
+            point: '血糖値を緩やかに保ち、代謝のスイッチを入れる'
+          },
+          lunch: {
+            title: '昼食: 魚良質脂質＆カリウム',
+            detail: '焼き鮭定食（ご飯は小盛り/玄米推奨）、ほうれん草のおひたし',
+            point: '鮭のアスタキサンチンとほうれん草のカリウムでむくみ撃退'
+          },
+          dinner: {
+            title: '夕食: 軽め温活タンパク質',
+            detail: '豆腐とキノコの生姜スープ、蒸し鶏とブロッコリー',
+            point: '生姜で内臓を温め、塩分控えめで就寝中の水溜りを防止'
+          }
+        }
+      },
+      tue: {
+        key: 'tue',
+        name: '火',
+        en: 'TUE',
+        theme: 'むくみ徹底流し＆可動域拡大',
+        desc: '重力で下半身に溜まった余分な水分と老廃物を心臓へ押し戻すデトックスデイ。',
+        workouts: [
+          {
+            id: 'tue_w1',
+            title: 'フロッグストレッチ（股関節ほぐし）',
+            reps: '1分キープ × 2セット',
+            target: '股関節インナーマッスル',
+            tip: '四つん這いから両膝を可能な限り大きく開き、足の親指を床につけたままお尻を後ろへ引く。呼吸を止めず深く吐き出します。'
+          },
+          {
+            id: 'tue_w2',
+            title: '壁を使った足上げリセット',
+            reps: '5分間キープ',
+            target: '下半身静脈還流・リンパ',
+            tip: 'お尻を壁に近づけ、両脚を壁に垂直に立て掛けて脱力。足先から滞った血液を上体に戻します。スマホを見ずに目を閉じてリラックス。'
+          },
+          {
+            id: 'tue_w3',
+            title: '足首回し＆ふくらはぎ流し',
+            reps: '左右各30秒',
+            target: '第二の心臓（腓腹筋・ヒラメ筋）',
+            tip: '足首を内外に大きく回し、くるぶしの後ろから膝裏のリンパ節へ向かって手のひらで優しくさすり上げます。'
+          }
+        ],
+        meals: {
+          breakfast: {
+            title: '朝食: 食物繊維と酵素',
+            detail: 'オートミール（豆乳がけ）、キウイフルーツ 1個',
+            point: 'キウイの豊富なカリウムが昨夜の塩分を速やかに体外へ'
+          },
+          lunch: {
+            title: '昼食: 蒸し鶏と彩り野菜',
+            detail: '蒸し鶏と彩り野菜ランチ（コンビニならサラダチキン＋もち麦おにぎり＋海藻サラダ）',
+            point: 'ドレッシングはノンオイルまたは半分にして塩分カット'
+          },
+          dinner: {
+            title: '夕食: 豚肉のビタミンB1補給',
+            detail: '豚ヒレ肉とキャベツの重ね蒸し（ポン酢少量）、ワカメのお味噌汁',
+            point: 'ビタミンB1で糖質代謝を高め、夕食の炭水化物はなし'
+          }
+        }
+      },
+      wed: {
+        key: 'wed',
+        name: '水',
+        en: 'WED',
+        theme: 'ヒップアップ＆裏もも引き締め',
+        desc: '前ももを使わずにヒップの位置を引き上げ、太もも裏の境目をくっきりさせます。',
+        workouts: [
+          {
+            id: 'wed_w1',
+            title: 'ヒップリフト（足裏合わせ ver.）',
+            reps: '20回 × 3セット',
+            target: 'もも裏（ハムストリングス）・臀部',
+            tip: '仰向けで足裏同士を合わせ、膝を開いた状態でお尻をキュッと持ち上げる。前ももに力が入らず、お尻の上部にダイレクトに効きます。'
+          },
+          {
+            id: 'wed_w2',
+            title: 'ドンキーキック',
+            reps: '左右 各15回 × 2セット',
+            target: '大臀筋上部（ヒップトップ）',
+            tip: '四つん這いになり、膝を直角に保ったまま足裏で天井を蹴り上げる。腰を反らさず、お尻の収縮だけで上げる意識。'
+          }
+        ],
+        meals: {
+          breakfast: {
+            title: '朝食: 良質オイルと卵',
+            detail: 'アボカドトースト（全粒粉パン薄め）、目玉焼き',
+            point: 'アボカドの不飽和脂肪酸とカリウムで細胞の潤いキープ'
+          },
+          lunch: {
+            title: '昼食: 新鮮な高タンパク魚介',
+            detail: 'お刺身定食（マグロ赤身・タコ・サーモン）、具だくさんお味噌汁',
+            point: 'タコに含まれるタウリンで肝機能と代謝を活性化'
+          },
+          dinner: {
+            title: '夕食: 低カロリー温野菜',
+            detail: '鶏ささみとトマトの温野菜スープ、温奴（かつお節がけ）',
+            point: 'トマトのリコピンとささみで軽やかで翌朝重くならない構成'
+          }
+        }
+      },
+      thu: {
+        key: 'thu',
+        name: '木',
+        en: 'THU',
+        theme: '巡り改善＆筋膜リリース',
+        desc: '週の折り返し。硬くなった外ももと前ももの張りを緩めて美しい筋肉の長さを保ちます。',
+        workouts: [
+          {
+            id: 'thu_w1',
+            title: '外もも・前もも 筋膜リリース',
+            reps: '左右 各1分',
+            target: '大腿筋膜張筋・大腿四頭筋',
+            tip: 'フォームローラーまたは両手の手根を使って、太ももの外側と前側の張っている部分を優しくコロコロほぐします。呼吸を深めて痛気持ちいい強さで。'
+          },
+          {
+            id: 'thu_w2',
+            title: '股関節前面（腸腰筋）ディープストレッチ',
+            reps: '左右 各45秒',
+            target: '腸腰筋・反り腰改善',
+            tip: '片足を大きく前に踏み出し、後ろ足の付け根（股関節の前）を沈める。骨盤を立てることで反り腰による前もも張りを防ぎます。'
+          }
+        ],
+        meals: {
+          breakfast: {
+            title: '朝食: 巡りスムージー',
+            detail: '豆乳スムージー（無調整豆乳＋バナナ＋ほうれん草＋きな粉）',
+            point: '鉄分と植物性プロテインをスピーディーに補給'
+          },
+          lunch: {
+            title: '昼食: 赤身肉の鉄分チャージ',
+            detail: '赤身牛もも肉のステーキまたはローストビーフ、ミニサラダ、玄米少量',
+            point: '女性が不足しやすい鉄分とL-カルニチンで脂肪燃焼体質へ'
+          },
+          dinner: {
+            title: '夕食: 白身魚とたっぷりキノコ',
+            detail: '白身魚とキノコのホイル焼き、具だくさんキノコ汁',
+            point: 'キノコのキノコキトサンと食物繊維でお腹もすっきり'
+          }
+        }
+      },
+      fri: {
+        key: 'fri',
+        name: '金',
+        en: 'FRI',
+        theme: '美脚ライン形成＆O脚補正',
+        desc: '股関節のねじれを正し、正面・横から見てもまっすぐ伸びる細見えラインを彫り込みます。',
+        workouts: [
+          {
+            id: 'fri_w1',
+            title: 'カエル足パカ（仰向けレッグプレス）',
+            reps: '30回 × 2セット',
+            target: '内転筋・骨盤底筋群',
+            tip: '仰向けで足を垂直に上げ、かかとを合わせてつま先を開く。カエルのように膝を曲げて伸ばす。内ももをギュッと擦り合わせるように。'
+          },
+          {
+            id: 'fri_w2',
+            title: 'サイドレッグレイズ',
+            reps: '左右 各20回 × 2セット',
+            target: '中臀筋（ヒップのくびれ）',
+            tip: '横向きになり、上の脚をゆっくり持ち上げる。つま先は正面または少し下向きにして、外ももではなくお尻の横を使います。'
+          }
+        ],
+        meals: {
+          breakfast: {
+            title: '朝食: バランスプレート',
+            detail: '全粒粉パン、スクランブルエッグ、ミニトマト 5個',
+            point: '週末前のエネルギー補給とビタミンCチャージ'
+          },
+          lunch: {
+            title: '昼食: 大根おろしで消化促進',
+            detail: '和風おろしハンバーグ定食（赤身肉メイン）、温野菜小鉢',
+            point: '大根おろしの消化酵素で胃腸を休めながらタンパク質確保'
+          },
+          dinner: {
+            title: '夕食: タウリン＆アボカド',
+            detail: 'タコとアボカドの和風和え、豆腐とワカメの中華風スープ',
+            point: '塩分を控えめにしつつ満足感の高いヘルシーおつまみ風夕食'
+          }
+        }
+      },
+      sat: {
+        key: 'sat',
+        name: '土',
+        en: 'SAT',
+        theme: '姿勢リセット＆軽め有酸素',
+        desc: '反り腰・猫背をリセットし、かかと着地を意識したウォーキングでふくらはぎを細く使います。',
+        workouts: [
+          {
+            id: 'sat_w1',
+            title: '骨盤ニュートラルリセット体操',
+            reps: '1分間',
+            target: '腹横筋・骨盤位置補正',
+            tip: '仰向けで膝を立て、息を吐きながら腰と床の隙間を押し潰すように下腹部を引き込む（ドローイン）。'
+          },
+          {
+            id: 'sat_w2',
+            title: '美脚ウォーキング（かかと着地）',
+            reps: '20〜30分（散歩や買い物でOK）',
+            target: '全身有酸素・ハムストリングス連動',
+            tip: '歩く時はつま先ではなく「かかと」から着地し、後ろ足の親指の付け根でしっかり床を押し出す。前ももを使わない歩き方を習慣に。'
+          }
+        ],
+        meals: {
+          breakfast: {
+            title: '朝食: 週末のデトックスフルーツ',
+            detail: 'フルーツ盛り合わせ（ベリーやグレープフルーツ）、ヨーグルト、ゆで卵',
+            point: '抗酸化物質たっぷりで週末の肌と体をリフレッシュ'
+          },
+          lunch: {
+            title: '昼食: 好きなお寿司（外食OK）',
+            detail: 'お寿司 6〜8貫（マグロ赤身、イカ、タコ、エビ、ホタテ中心）',
+            point: '天ぷらやマヨネーズ系は避け、赤身と貝類を中心に楽しむ'
+          },
+          dinner: {
+            title: '夕食: 高タンパク＆きゅうり',
+            detail: '鶏むね肉のバンバンジー風（きゅうりたっぷり＋薄味タレ）、野菜スープ',
+            point: 'きゅうりのホスホリパーゼとカリウムでむくみ撃退'
+          }
+        }
+      },
+      sun: {
+        key: 'sun',
+        name: '日',
+        en: 'SUN',
+        theme: '深部リンパ流し＆極上メンテナンス',
+        desc: '1週間の老廃物を完全に流し切り、スッキリ細い脚で新しい週を迎えるためのリラックスデイ。',
+        workouts: [
+          {
+            id: 'sun_w1',
+            title: '寝ながら股関節回し',
+            reps: '左右 内外各10回',
+            target: '股関節の潤滑油分泌・鼠径部リンパ',
+            tip: '仰向けで片膝を胸に引き寄せ、外側から大きく円を描くように回す。鼠径部のリンパ詰まりを解消します。'
+          },
+          {
+            id: 'sun_w2',
+            title: 'お尻＆もも裏のディープストレッチ',
+            reps: '左右 各1分',
+            target: '大臀筋・梨状筋・坐骨神経ライン',
+            tip: '仰向けで片足の足首を反対の膝に乗せ、抱え込む。お尻の奥がじんわり伸びるのを感じながら深呼吸。'
+          }
+        ],
+        meals: {
+          breakfast: {
+            title: '朝食: 和の腸活モーニング',
+            detail: '納豆玄米ご飯（小盛り）、具だくさんお味噌汁',
+            point: '発酵食品で腸内環境を整え、老廃物の排出力を底上げ'
+          },
+          lunch: {
+            title: '昼食: ルチン豊富な十割蕎麦',
+            detail: 'とろろ蕎麦（温または冷）、野菜小鉢',
+            point: '蕎麦のルチンは毛細血管を強くし、下半身の血流を改善'
+          },
+          dinner: {
+            title: '夕食: 胃腸に優しい温鍋',
+            detail: '白菜と豚赤身肉のミルフィーユ小鍋（昆布出汁とポン酢）',
+            point: '水分と野菜たっぷりで翌朝のすっきり美脚を約束'
+          }
+        }
+      }
+    };
+
+    const STORAGE_KEY = 'elegance_jambes_v1';
+    
+    // Day order array
+    const DAY_KEYS = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+
+    // Map JS Sunday(0)-Saturday(6) to our keys
+    function getTodayKey() {
+      const dayMap = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+      return dayMap[new Date().getDay()];
+    }
+
+    let appState = {
+      activeDay: getTodayKey(),
+      checkedItems: {}, // key: 'mon_w1' => boolean
+      waterGlasses: {}, // key: 'mon_0' => boolean
+      baths: {},        // key: 'mon' => boolean
+      notes: {}         // key: 'mon' => string
+    };
+
+    function loadState() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          appState = { ...appState, ...parsed };
+        }
+      } catch (e) {
+        console.error('Failed to load localStorage', e);
+      }
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+      } catch (e) {
+        console.error('Failed to save localStorage', e);
+      }
+    }
+
+    function renderDayTabs() {
+      const container = document.getElementById('dayTabsContainer');
+      container.innerHTML = '';
+      const today = getTodayKey();
+
+      DAY_KEYS.forEach(k => {
+        const data = PROGRAM_DATA[k];
+        const isActive = appState.activeDay === k;
+        const isToday = today === k;
+
+        // Calculate that day's mini progress dot
+        const totalItems = data.workouts.length + 3 + 1; // workouts + 3 meals + bath
+        let doneItems = 0;
+        data.workouts.forEach(w => { if (appState.checkedItems[w.id]) doneItems++; });
+        ['breakfast', 'lunch', 'dinner'].forEach(m => { if (appState.checkedItems[`${k}_${m}`]) doneItems++; });
+        if (appState.baths[k]) doneItems++;
+        const isDone = doneItems === totalItems;
+
+        const btn = document.createElement('button');
+        btn.className = `flex-1 py-2 px-1 rounded-2xl flex flex-col items-center transition-all duration-200 relative ${
+          isActive 
+            ? 'bg-gradient-to-b from-stone-900 to-stone-800 text-white shadow-md' 
+            : 'bg-white/80 border border-roseBeige-200/90 text-roseBeige-700 hover:bg-roseBeige-100'
+        }`;
+
+        btn.innerHTML = `
+          ${isToday ? '<span class="absolute -top-1 w-1.5 h-1.5 rounded-full bg-champagne-gold"></span>' : ''}
+          <span class="text-[9px] font-serifTitle ${isActive ? 'text-champagne-light' : 'text-stone-400'}">${data.en}</span>
+          <span class="text-xs font-semibold mt-0.5">${data.name}</span>
+          <span class="w-1.5 h-1.5 rounded-full mt-1 ${isDone ? 'bg-champagne-gold' : (isActive ? 'bg-stone-700' : 'bg-roseBeige-200')}"></span>
+        `;
+
+        btn.onclick = () => {
+          appState.activeDay = k;
+          saveState();
+          renderApp();
+        };
+
+        container.appendChild(btn);
+      });
+    }
+
+    function renderDayContent() {
+      const current = PROGRAM_DATA[appState.activeDay];
+
+      // Update Theme Header
+      document.getElementById('currentDayBadge').innerText = `${current.en} ・ 第${DAY_KEYS.indexOf(current.key) + 1}日目`;
+      document.getElementById('dayThemeTitle').innerText = current.theme;
+      document.getElementById('dayThemeDesc').innerText = current.desc;
+
+      // Render Workouts
+      const workoutContainer = document.getElementById('workoutList');
+      workoutContainer.innerHTML = '';
+
+      current.workouts.forEach(item => {
+        const checked = !!appState.checkedItems[item.id];
+        const card = document.createElement('div');
+        card.className = `p-3.5 rounded-2xl border transition-all duration-200 ${
+          checked 
+            ? 'bg-roseBeige-100/50 border-roseBeige-300/80 opacity-90' 
+            : 'bg-roseBeige-50/50 border-roseBeige-200 hover:border-roseBeige-300'
+        }`;
+
+        card.innerHTML = `
+          <div class="flex items-start gap-3">
+            <input type="checkbox" data-id="${item.id}" class="lux-checkbox workout-check mt-1" ${checked ? 'checked' : ''}>
+            <div class="flex-1">
+              <div class="flex items-baseline justify-between cursor-pointer accordion-trigger">
+                <h4 class="text-xs font-semibold text-stone-900 ${checked ? 'line-through text-stone-400' : ''}">${item.title}</h4>
+                <span class="text-[11px] text-champagne-gold font-serifTitle font-bold">${item.reps}</span>
+              </div>
+              <p class="text-[10px] text-roseBeige-600 mt-0.5 font-medium">狙い: ${item.target}</p>
+              
+              <!-- Expandable Form Tips -->
+              <div class="tips-detail text-[11px] text-stone-600 mt-2 pt-2 border-t border-roseBeige-200/70 hidden leading-relaxed bg-white/70 p-2.5 rounded-xl">
+                <span class="text-roseBeige-700 font-semibold block mb-0.5">美脚ポイント：</span>
+                ${item.tip}
+              </div>
+            </div>
+          </div>
+        `;
+
+        // Toggle Tips on title click
+        const trigger = card.querySelector('.accordion-trigger');
+        const detail = card.querySelector('.tips-detail');
+        trigger.addEventListener('click', () => {
+          detail.classList.toggle('hidden');
+        });
+
+        // Checkbox listener
+        const chk = card.querySelector('.workout-check');
+        chk.addEventListener('change', (e) => {
+          appState.checkedItems[item.id] = e.target.checked;
+          saveState();
+          checkCelebrate();
+          renderApp();
+        });
+
+        workoutContainer.appendChild(card);
+      });
+
+      // Render Meals (Breakfast, Lunch, Dinner)
+      const mealContainer = document.getElementById('mealList');
+      mealContainer.innerHTML = '';
+      const mealTypes = [
+        { type: 'breakfast', label: '朝', data: current.meals.breakfast },
+        { type: 'lunch', label: '昼', data: current.meals.lunch },
+        { type: 'dinner', label: '夜', data: current.meals.dinner }
+      ];
+
+      mealTypes.forEach(m => {
+        const id = `${current.key}_${m.type}`;
+        const checked = !!appState.checkedItems[id];
+
+        const card = document.createElement('label');
+        card.className = `flex items-start gap-3 p-3.5 rounded-2xl border transition-all cursor-pointer ${
+          checked 
+            ? 'bg-roseBeige-100/50 border-roseBeige-300/80 opacity-90' 
+            : 'bg-roseBeige-50/50 border-roseBeige-200 hover:border-roseBeige-300'
+        }`;
+
+        card.innerHTML = `
+          <input type="checkbox" data-id="${id}" class="lux-checkbox meal-check mt-1" ${checked ? 'checked' : ''}>
+          <div class="flex-1">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-semibold text-stone-900 ${checked ? 'line-through text-stone-400' : ''}">${m.data.title}</span>
+              <span class="text-[10px] bg-roseBeige-200 text-roseBeige-800 px-1.5 py-0.5 rounded font-serifTitle">${m.label}</span>
+            </div>
+            <p class="text-xs text-stone-700 mt-1 font-medium ${checked ? 'text-stone-400' : ''}">${m.data.detail}</p>
+            <p class="text-[10px] text-nudePink-deep mt-1 bg-white/60 p-1.5 rounded-lg">効果: ${m.data.point}</p>
+          </div>
+        `;
+
+        const chk = card.querySelector('.meal-check');
+        chk.addEventListener('change', (e) => {
+          appState.checkedItems[id] = e.target.checked;
+          saveState();
+          checkCelebrate();
+          renderApp();
+        });
+
+        mealContainer.appendChild(card);
+      });
+
+      // Render Water Intake (8 glasses = 2000ml)
+      const waterContainer = document.getElementById('waterGlassesContainer');
+      waterContainer.innerHTML = '';
+      let waterCount = 0;
+
+      for (let i = 0; i < 8; i++) {
+        const glassId = `${current.key}_glass_${i}`;
+        const isFilled = !!appState.waterGlasses[glassId];
+        if (isFilled) waterCount++;
+
+        const glassBtn = document.createElement('button');
+        glassBtn.className = `h-10 rounded-xl flex flex-col items-center justify-center transition-all ${
+          isFilled 
+            ? 'bg-gradient-to-t from-sky-400 to-sky-200 text-white shadow-sm scale-95' 
+            : 'bg-white border border-roseBeige-200 text-roseBeige-300 hover:border-sky-300'
+        }`;
+        glassBtn.innerHTML = `
+          <svg class="w-4 h-4 ${isFilled ? 'text-white' : 'text-stone-300'}" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M7 2a1 1 0 00-.707 1.707L7 4.414v9.172a3 3 0 003 3 3 3 0 003-3V4.414l.707-.707A1 1 0 0013 2H7z"/>
+          </svg>
+          <span class="text-[8px] mt-0.5 font-serifTitle ${isFilled ? 'text-white font-bold' : 'text-stone-400'}">${(i+1)*250}</span>
+        `;
+
+        glassBtn.onclick = () => {
+          appState.waterGlasses[glassId] = !appState.waterGlasses[glassId];
+          saveState();
+          renderApp();
+        };
+
+        waterContainer.appendChild(glassBtn);
+      }
+
+      document.getElementById('waterMlText').innerText = `${waterCount * 250} / 2000 ml`;
+
+      // Bath & Circulation Checkbox
+      const bathCheckbox = document.getElementById('bathCheck');
+      bathCheckbox.checked = !!appState.baths[current.key];
+      bathCheckbox.onchange = (e) => {
+        appState.baths[current.key] = e.target.checked;
+        saveState();
+        checkCelebrate();
+        renderApp();
+      };
+
+      // Daily Reflection Note
+      const noteInput = document.getElementById('dailyNoteInput');
+      noteInput.value = appState.notes[current.key] || '';
+      noteInput.oninput = (e) => {
+        appState.notes[current.key] = e.target.value;
+        saveState();
+        showNoteSaved();
+      };
+
+      // Update Completion Numbers for this day
+      updateCalculations();
+    }
+
+    // Auto-save feedback for notes
+    let saveTimeout;
+    function showNoteSaved() {
+      const indicator = document.getElementById('noteSaveIndicator');
+      indicator.style.opacity = '1';
+      clearTimeout(saveTimeout);
+      saveTimeout = setTimeout(() => {
+        indicator.style.opacity = '0';
+      }, 1500);
+    }
+
+    function updateCalculations() {
+      const current = PROGRAM_DATA[appState.activeDay];
+
+      // Day Progress
+      const dayTotal = current.workouts.length + 3 + 1; // workouts + 3 meals + bath
+      let dayDone = 0;
+      current.workouts.forEach(w => { if (appState.checkedItems[w.id]) dayDone++; });
+      ['breakfast', 'lunch', 'dinner'].forEach(m => { if (appState.checkedItems[`${current.key}_${m}`]) dayDone++; });
+      if (appState.baths[current.key]) dayDone++;
+
+      const dayRatio = dayTotal > 0 ? Math.round((dayDone / dayTotal) * 100) : 0;
+      document.getElementById('dayCompletionRatio').innerText = `${dayDone} / ${dayTotal} 完了`;
+      document.getElementById('footerPercent').innerText = `${dayRatio}%`;
+
+      // Week Progress
+      let weekTotal = 0;
+      let weekDone = 0;
+
+      DAY_KEYS.forEach(k => {
+        const dayData = PROGRAM_DATA[k];
+        weekTotal += dayData.workouts.length + 3 + 1;
+
+        dayData.workouts.forEach(w => {
+          if (appState.checkedItems[w.id]) weekDone++;
+        });
+        ['breakfast', 'lunch', 'dinner'].forEach(m => {
+          if (appState.checkedItems[`${k}_${m}`]) weekDone++;
+        });
+        if (appState.baths[k]) weekDone++;
+      });
+
+      const weekPercent = weekTotal > 0 ? Math.round((weekDone / weekTotal) * 100) : 0;
+      document.getElementById('weeklyPercentText').innerText = `${weekPercent}%`;
+      document.getElementById('weeklyProgressBar').style.width = `${weekPercent}%`;
+      document.getElementById('completedItemsCount').innerText = `完了: ${weekDone} / ${weekTotal} 項目`;
+    }
+
+    // Celebration Confetti
+    function checkCelebrate() {
+      const current = PROGRAM_DATA[appState.activeDay];
+      const dayTotal = current.workouts.length + 3 + 1;
+      let dayDone = 0;
+      current.workouts.forEach(w => { if (appState.checkedItems[w.id]) dayDone++; });
+      ['breakfast', 'lunch', 'dinner'].forEach(m => { if (appState.checkedItems[`${current.key}_${m}`]) dayDone++; });
+      if (appState.baths[current.key]) dayDone++;
+
+      if (dayDone === dayTotal) {
+        if (typeof confetti === 'function') {
+          confetti({
+            particleCount: 70,
+            spread: 60,
+            origin: { y: 0.7 },
+            colors: ['#D4AF37', '#A98D7B', '#F4ECE8', '#C5A059']
+          });
+        }
+      }
+    }
+
+    function renderApp() {
+      renderDayTabs();
+      renderDayContent();
+    }
+
+    let timerInterval = null;
+    let timerRemaining = 60;
+    let timerRunning = false;
+
+    const timerModal = document.getElementById('timerModal');
+    const timerDisplay = document.getElementById('timerDisplay');
+    const timerToggleBtn = document.getElementById('timerToggleBtn');
+
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60).toString().padStart(2, '0');
+      const s = (sec % 60).toString().padStart(2, '0');
+      return `${m}:${s}`;
+    }
+
+    function updateTimerDisplay() {
+      timerDisplay.innerText = formatTime(timerRemaining);
+    }
+
+    function openTimer() {
+      timerModal.classList.remove('hidden');
+      setTimeout(() => {
+        timerModal.classList.remove('opacity-0');
+        document.getElementById('timerModalContent').classList.remove('scale-95');
+      }, 10);
+    }
+
+    function closeTimer() {
+      timerModal.classList.add('opacity-0');
+      document.getElementById('timerModalContent').classList.add('scale-95');
+      setTimeout(() => {
+        timerModal.classList.add('hidden');
+      }, 250);
+    }
+
+    document.getElementById('openTimerBtn').onclick = openTimer;
+    document.getElementById('closeTimerBtn').onclick = closeTimer;
+
+    timerToggleBtn.onclick = () => {
+      if (timerRunning) {
+        // Pause
+        clearInterval(timerInterval);
+        timerRunning = false;
+        timerToggleBtn.innerText = '再開';
+        timerToggleBtn.classList.replace('from-stone-700', 'from-champagne-gold');
+      } else {
+        // Start
+        if (timerRemaining <= 0) timerRemaining = 60;
+        timerRunning = true;
+        timerToggleBtn.innerText = '一時停止';
+        timerInterval = setInterval(() => {
+          timerRemaining--;
+          updateTimerDisplay();
+          if (timerRemaining <= 0) {
+            clearInterval(timerInterval);
+            timerRunning = false;
+            timerToggleBtn.innerText = 'スタート';
+            if (typeof confetti === 'function') confetti({ particleCount: 40 });
+          }
+        }, 1000);
+      }
+    };
+
+    document.getElementById('timerResetBtn').onclick = () => {
+      clearInterval(timerInterval);
+      timerRunning = false;
+      timerRemaining = 60;
+      updateTimerDisplay();
+      timerToggleBtn.innerText = 'スタート';
+    };
+
+    document.querySelectorAll('.timer-preset-btn').forEach(btn => {
+      btn.onclick = () => {
+        clearInterval(timerInterval);
+        timerRunning = false;
+        timerRemaining = parseInt(btn.dataset.seconds, 10);
+        updateTimerDisplay();
+        timerToggleBtn.innerText = 'スタート';
+      };
+    });
+
+    const resetModal = document.getElementById('resetModal');
+    document.getElementById('resetWeekModalBtn').onclick = () => {
+      resetModal.classList.remove('hidden');
+      setTimeout(() => resetModal.classList.remove('opacity-0'), 10);
+    };
+
+    document.getElementById('cancelResetBtn').onclick = () => {
+      resetModal.classList.add('opacity-0');
+      setTimeout(() => resetModal.classList.add('hidden'), 200);
+    };
+
+    document.getElementById('confirmResetBtn').onclick = () => {
+      // Clear checks and water, retain notes
+      appState.checkedItems = {};
+      appState.waterGlasses = {};
+      appState.baths = {};
+      saveState();
+      resetModal.classList.add('opacity-0');
+      setTimeout(() => resetModal.classList.add('hidden'), 200);
+      renderApp();
+    };
+
+    // Jump to Today
+    document.getElementById('jumpTodayBtn').onclick = () => {
+      appState.activeDay = getTodayKey();
+      saveState();
+      renderApp();
+    };
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadState();
+      renderApp();
+      updateTimerDisplay();
+    });
+  </script>
+</body>
+</html>
